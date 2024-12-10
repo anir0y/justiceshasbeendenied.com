@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Georgia", serif;
+            background: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 15px 0 25px;
+            max-width: 600px;
+            color: #34495e;
+        }
+
+        .subscription-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subscription-form input[type="email"] {
+            padding: 10px;
+            font-size: 1rem;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .subscription-form button {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .subscription-form button:hover {
+            background-color: #2ecc71;
+        }
+
+        footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+
+            .subscription-form input[type="email"] {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Coming Soon</h1>
+    <p>Justice delayed is not justice denied. We're working on something meaningful. Stay tuned for updates!</p>
+    <form class="subscription-form" id="subscription-form">
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button type="submit">Notify Me</button>
+    </form>
+    <footer>&copy; 2024 Legal Initiative. All Rights Reserved.</footer>
+
+    <script>
+        document.getElementById('subscription-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+
+            if (email) {
+                const ntfyUrl = "https://ntfy.sh/JUSTICE_IS_DUE";
+                const message = {
+                    topic: "help-justice-email",
+                    message: `New subscription: ${email}`,
+                    email: "help@justiceshasbeendenied.com",
+                };
+
+                try {
+                    // Send subscription notification via ntfy.sh
+                    const response = await fetch(ntfyUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(message),
+                    });
+
+                    if (response.ok) {
+                        alert(`Thank you for subscribing! Updates will be sent to ${email}.`);
+                        document.getElementById('email').value = '';
+                    } else {
+                        alert("Subscription failed. Please try again.");
+                    }
+                } catch (error) {
+                    alert("An error occurred. Please try again later.");
+                }
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
+    </script>
+</body>
+</html>
